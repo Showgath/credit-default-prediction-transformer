@@ -1,0 +1,6 @@
+,Baseline RF,Tuned RF,Improvement
+Accuracy,0.813,0.8025,▼ -0.0105
+Precision (D),0.6458,0.5573,▼ -0.0885
+Recall (D),0.3421,0.5207,▲ +0.1786
+F1-Score (D),0.4473,0.5384,▲ +0.0911
+ROC-AUC,0.7547,0.7695,▲ +0.0148
