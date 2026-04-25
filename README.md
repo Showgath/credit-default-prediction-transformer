@@ -19,6 +19,7 @@ Each customer record is converted into a **11-token sequence**:
   - Repayment Status (`PAY_*`) — Indices shifted by +2 for non-negativity.
   - Bill Amount (`BILL_AMT*`)
   - Payment Amount (`PAY_AMT*`)
+
 **Sequence Order:** $[S_1, S_2, S_3, S_4, S_5, T_1, T_2, T_3, T_4, T_5, T_6]$
 
 ### 2. Embedding Design ($d_{model} = 64$)
