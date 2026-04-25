@@ -14,7 +14,7 @@ While the **Random Forest** benchmark and the **Temporal Transformer** achieved 
 The SLM is designed to handle heterogeneous tabular data by transforming records into a sequential format that the self-attention mechanism can process natively.
 ### 1. Tokenization & Sequence Structure
 Each customer record is converted into a **11-token sequence**:
-- **Tokens S1–S5 (Static):** Dedicated tokens for 'LIMIT_BAL', 'SEX', 'EDUCATION', 'MARRIAGE', and 'AGE'.
+- **Tokens S1–S5 (Static):** Dedicated tokens for `LIMIT_BAL`, `SEX`, `EDUCATION`, `MARRIAGE`, and `AGE`.
 - **Tokens T1–T6 (Temporal):** Monthly snapshots from April (T1) to September (T6). Each token encodes:
   - Repayment Status (PAY_*) — Indices shifted by +2 for non-negativity.
   - Bill Amount (BILL_AMT*)
