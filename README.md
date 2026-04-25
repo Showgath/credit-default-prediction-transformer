@@ -16,9 +16,9 @@ The SLM is designed to handle heterogeneous tabular data by transforming records
 Each customer record is converted into a **11-token sequence**:
 - **Tokens S1–S5 (Static):** Dedicated tokens for `LIMIT_BAL`, `SEX`, `EDUCATION`, `MARRIAGE`, and `AGE`.
 - **Tokens T1–T6 (Temporal):** Monthly snapshots from April (T1) to September (T6). Each token encodes:
-  - Repayment Status (PAY_*) — Indices shifted by +2 for non-negativity.
-  - Bill Amount (BILL_AMT*)
-  - Payment Amount (PAY_AMT*)
+  - Repayment Status (`PAY_*`) — Indices shifted by +2 for non-negativity.
+  - Bill Amount (`BILL_AMT*`)
+  - Payment Amount (`PAY_AMT*`)
 **Sequence Order:** $[S_1, S_2, S_3, S_4, S_5, T_1, T_2, T_3, T_4, T_5, T_6]$
 
 ### 2. Embedding Design ($d_{model} = 64$)
@@ -33,17 +33,17 @@ To respect the passage of time, a learned positional embedding is added to the t
 
 ## The Transformer Stack
 The core engine consists of **two stacked Transformer blocks**:
-- **Multi-Head Self-Attention:** 4 attention heads ($d_k = 16$) allow the model to parallelize focus (e.g., one head tracking month-to-month trends, another relating LIMIT_BAL to recent delays).
+- **Multi-Head Self-Attention:** 4 attention heads ($d_k = 16$) allow the model to parallelize focus (e.g., one head tracking month-to-month trends, another relating `LIMIT_BAL` to recent delays).
 - **Pre-Norm & Residuals:** Employs the Pre-Norm configuration (LayerNorm applied before attention/FFN) to improve gradient flow and training stability.
 - **Feed-Forward Network (FFN):** A two-layer MLP with a hidden dimension of 128 and ReLU activation.
 
 
 ## Classification & Training
 ### Classification Head
-Instead of using only the CLS token, this model utilizes Mean Pooling across all 11 contextualized tokens. This summary vector $z$ is passed through a final 2-layer MLP (64 $\to$ 32 $\to$ 1) to produce the default logit.
+Instead of using only the `CLS` token, this model utilizes Mean Pooling across all 11 contextualized tokens. This summary vector $z$ is passed through a final 2-layer MLP (64 $\to$ 32 $\to$ 1) to produce the default logit.
 
 ### Training Configuration
-**Loss Function:** BCEWithLogitsLoss with a pos_weight of ~3.5 to combat class imbalance.
+**Loss Function:** `BCEWithLogitsLoss` with a `pos_weight` of ~3.5 to combat class imbalance.
 **Optimizer:** Adam ($LR = 1 \times 10^{-3}$).
 **Stability:** Gradient Norm Clipping set at 1.0.
 **Regularization:** Dropout (0.1) applied to embeddings, attention, and FFN sub-layers.
